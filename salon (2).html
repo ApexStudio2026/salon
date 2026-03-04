@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verdure Studio — Premium Hair Salon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&family=Pacifico&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #f0fdf6; color: #1a2e1a; font-family: 'Nunito', sans-serif; overflow-x: hidden; }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes shimmer { 0%{ background-position:200% center; } 100%{ background-position:-200% center; } }
+    @keyframes float { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-8px); } }
+
+    .fade-up { animation: fadeUp 0.6s ease both; }
+    .fade-up-2 { animation: fadeUp 0.6s 0.1s ease both; }
+    .fade-up-3 { animation: fadeUp 0.6s 0.2s ease both; }
+
+    .shimmer-text {
+      background: linear-gradient(90deg, #fff 0%, #4ade80 35%, #86efac 50%, #4ade80 65%, #fff 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 5s linear infinite;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(240,253,246,0.92); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(134,239,172,0.3);
+      padding: 16px 48px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand { font-family: 'Pacifico', cursive; font-size: 22px; font-weight: 400; letter-spacing: 1px; }
+    .nav-brand span { color: #16a34a; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 13px; color: rgba(22,101,52,0.6); font-weight: 600; transition: color 0.2s; }
+    .nav-links a:hover { color: #1a2e1a; }
+    .nav-btn {
+      background: linear-gradient(135deg, #16a34a, #4ade80);
+      color: white; border: none; cursor: pointer;
+      font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 13px;
+      padding: 10px 24px; border-radius: 20px;
+      transition: all 0.2s ease; letter-spacing: 0.5px;
+    }
+    .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(74,222,128,0.3); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 120px 48px 80px; position: relative; overflow: hidden;
+      background: radial-gradient(ellipse at 50% 40%, rgba(134,239,172,0.25) 0%, transparent 70%);
+    }
+    .hero-inner { max-width: 720px; position: relative; z-index: 1; }
+    .hero-tag {
+      display: inline-block; background: rgba(134,239,172,0.3); border: 1px solid rgba(74,222,128,0.4);
+      color: #16a34a; font-size: 11px; font-weight: 600; letter-spacing: 3px;
+      padding: 6px 16px; border-radius: 20px; margin-bottom: 28px;
+    }
+    .hero h1 { font-family: 'Pacifico', cursive; font-size: 58px; font-weight: 400; line-height: 1.2; letter-spacing: -0.5px; margin-bottom: 24px; }
+    .hero p { font-size: 17px; color: rgba(22,101,52,0.6); max-width: 480px; margin: 0 auto 48px; line-height: 1.8; font-weight: 300; }
+
+    .hero-stats { display: flex; gap: 48px; justify-content: center; padding-top: 48px; border-top: 1px solid rgba(134,239,172,0.4); }
+    .stat-val { font-family: 'Pacifico', cursive; font-size: 28px; font-weight: 400; color: #16a34a; margin-bottom: 4px; }
+    .stat-label { font-size: 11px; color: rgba(22,101,52,0.5); letter-spacing: 2px; }
+
+    .book-btn {
+      background: linear-gradient(135deg, #16a34a, #4ade80);
+      color: #0a0f0a; border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 16px;
+      padding: 18px 48px; border-radius: 12px;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 32px rgba(74,222,128,0.35); border-radius: 24px;
+    }
+    .book-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(74,222,128,0.4); }
+
+    /* SECTIONS */
+    .section { padding: 100px 48px; }
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 56px; }
+    .section-tag {
+      display: inline-block; background: rgba(134,239,172,0.25); border: 1px solid rgba(74,222,128,0.35);
+      color: #16a34a; font-size: 10px; font-weight: 700; letter-spacing: 3px;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 16px;
+    }
+    .section-header h2 { font-family: 'Pacifico', cursive; font-size: 38px; font-weight: 400; letter-spacing: -0.5px; margin-bottom: 12px; }
+    .section-header p { font-size: 15px; color: rgba(22,101,52,0.55); line-height: 1.8; max-width: 480px; margin: 0 auto; }
+
+    .divider { border: none; border-top: 1px solid rgba(134,239,172,0.25); }
+
+    /* SERVICES */
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .service-card {
+      background: rgba(255,255,255,0.8); border: 1px solid rgba(134,239,172,0.3);
+      border-radius: 16px; padding: 28px; transition: all 0.25s ease; cursor: pointer;
+    }
+    .service-card:hover, .service-card.selected {
+      background: rgba(220,252,231,0.9); border-color: rgba(74,222,128,0.6);
+      transform: translateY(-3px);
+    }
+    .service-emoji { font-size: 28px; margin-bottom: 14px; }
+    .service-name { font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+    .service-desc { font-size: 12px; color: rgba(22,101,52,0.55); line-height: 1.6; margin-bottom: 16px; }
+    .service-meta { display: flex; justify-content: space-between; align-items: center; }
+    .service-duration { font-size: 11px; color: rgba(22,101,52,0.4); }
+    .service-price { font-size: 18px; font-weight: 700; color: #16a34a; font-family: 'Pacifico', cursive; }
+
+    /* STYLISTS */
+    .stylists-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .stylist-card {
+      background: rgba(255,255,255,0.8); border: 1px solid rgba(134,239,172,0.3);
+      border-radius: 16px; padding: 28px; text-align: center; transition: all 0.25s ease; cursor: pointer;
+    }
+    .stylist-card:hover, .stylist-card.selected {
+      background: rgba(220,252,231,0.9); border-color: rgba(74,222,128,0.6);
+      transform: translateY(-3px);
+    }
+    .stylist-avatar {
+      width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 700; color: #0a0f0a;
+    }
+    .stylist-name { font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+    .stylist-specialty { font-size: 12px; color: rgba(22,101,52,0.55); margin-bottom: 12px; }
+    .stylist-rating { font-size: 13px; color: #4ade80; font-weight: 600; }
+
+    /* BOOKING */
+    .booking-section { background: rgba(255,255,255,0.01); border-top: 1px solid rgba(134,239,172,0.25); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .booking-inner { max-width: 700px; margin: 0 auto; }
+
+    .progress-bar-wrap { display: flex; gap: 8px; margin-bottom: 48px; }
+    .progress-step {
+      flex: 1; height: 4px; border-radius: 2px;
+      background: rgba(134,239,172,0.3); transition: background 0.3s;
+    }
+    .progress-step.active { background: #4ade80; }
+
+    .booking-step { display: none; }
+    .booking-step.active { display: block; }
+
+    .step-title { font-family: 'Pacifico', cursive; font-size: 26px; font-weight: 400; margin-bottom: 8px; }
+    .step-sub { font-size: 14px; color: rgba(22,101,52,0.5); margin-bottom: 32px; }
+
+    .date-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 32px; }
+    .date-btn {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px; padding: 10px 4px; text-align: center; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .date-btn:hover, .date-btn.selected { background: rgba(220,252,231,0.9); border-color: #4ade80; }
+    .date-day { font-size: 10px; color: rgba(22,101,52,0.4); margin-bottom: 4px; }
+    .date-num { font-size: 15px; font-weight: 700; }
+
+    .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .time-btn {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px; padding: 12px; text-align: center; cursor: pointer;
+      font-size: 14px; font-weight: 600; transition: all 0.2s;
+    }
+    .time-btn:hover, .time-btn.selected { background: rgba(220,252,231,0.9); border-color: #4ade80; color: #16a34a; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-label { font-size: 11px; color: #16a34a; font-weight: 700; letter-spacing: 2px; display: block; margin-bottom: 8px; }
+    .form-input {
+      width: 100%; background: white; border: 1px solid rgba(134,239,172,0.4);
+      border-radius: 10px; padding: 14px 16px; font-size: 15px;
+      font-family: 'DM Sans', sans-serif; color: #1a2e1a; outline: none; transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: rgba(74,222,128,0.5); }
+
+    .step-actions { display: flex; gap: 12px; margin-top: 32px; }
+    .btn-primary {
+      background: linear-gradient(135deg, #16a34a, #4ade80);
+      color: #0a0f0a; border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 15px;
+      padding: 14px 32px; border-radius: 24px; transition: all 0.2s; flex: 1;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(74,222,128,0.3); }
+    .btn-secondary {
+      background: transparent; border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.6); cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 15px;
+      padding: 14px 24px; border-radius: 10px; transition: all 0.2s;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.3); color: #1a2e1a; }
+
+    /* CONFIRMATION */
+    .confirmation {
+      background: rgba(220,252,231,0.5); border: 1px solid rgba(74,222,128,0.3);
+      border-radius: 20px; padding: 40px; text-align: center; display: none;
+    }
+    .confirmation.active { display: block; }
+    .confirm-icon { font-size: 56px; margin-bottom: 20px; }
+    .confirm-title { font-family: 'Pacifico', cursive; font-size: 30px; font-weight: 400; margin-bottom: 12px; color: #16a34a; }
+    .confirm-sub { font-size: 15px; color: rgba(22,101,52,0.6); margin-bottom: 28px; line-height: 1.7; }
+    .confirm-details { background: white; border-radius: 12px; padding: 24px; border: 1px solid rgba(134,239,172,0.3); text-align: left; margin-bottom: 24px; }
+    .confirm-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(134,239,172,0.3); font-size: 14px; }
+    .confirm-row:last-child { border-bottom: none; }
+    .confirm-row-label { color: rgba(22,101,52,0.5); }
+    .confirm-row-val { font-weight: 600; }
+    .confirm-num { font-size: 12px; color: rgba(22,101,52,0.4); letter-spacing: 2px; }
+
+    /* MY BOOKINGS */
+    .bookings-list { display: flex; flex-direction: column; gap: 12px; }
+    .booking-item {
+      background: rgba(255,255,255,0.8); border: 1px solid rgba(134,239,172,0.3);
+      border-radius: 14px; padding: 22px 28px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .booking-item-left { display: flex; flex-direction: column; gap: 4px; }
+    .booking-service { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 700; }
+    .booking-meta { font-size: 13px; color: rgba(22,101,52,0.5); }
+    .booking-price { font-size: 18px; font-weight: 700; color: #16a34a; font-family: 'Pacifico', cursive; }
+    .empty-state { text-align: center; padding: 60px; color: rgba(22,101,52,0.4); font-size: 15px; }
+
+    /* REVIEWS */
+    .reviews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+    .review-card {
+      background: rgba(255,255,255,0.8); border: 1px solid rgba(134,239,172,0.3);
+      border-radius: 14px; padding: 24px;
+    }
+    .review-stars { color: #4ade80; font-size: 14px; margin-bottom: 10px; }
+    .review-text { font-size: 14px; color: rgba(22,101,52,0.65); line-height: 1.7; margin-bottom: 12px; font-style: italic; }
+    .review-author { font-size: 12px; color: rgba(22,101,52,0.4); font-weight: 600; }
+
+    .review-form { background: rgba(255,255,255,0.8); border: 1px solid rgba(134,239,172,0.3); border-radius: 16px; padding: 32px; }
+    .review-form h3 { font-family: 'Pacifico', cursive; font-size: 20px; font-weight: 400; margin-bottom: 24px; color: #16a34a; }
+    .star-picker { display: flex; gap: 8px; margin-bottom: 20px; }
+    .star-btn { font-size: 28px; cursor: pointer; transition: transform 0.1s; opacity: 0.3; }
+    .star-btn.active { opacity: 1; }
+    .star-btn:hover { transform: scale(1.2); }
+
+    /* TABS (for page navigation) */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(134,239,172,0.25); padding: 40px 48px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-brand { font-family: 'Pacifico', cursive; font-size: 20px; font-weight: 400; }
+    .footer-brand span { color: #16a34a; }
+    .footer-text { font-size: 13px; color: rgba(22,101,52,0.4); }
+
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 100px 24px 60px; }
+      .hero h1 { font-size: 40px; }
+      .hero-stats { gap: 24px; flex-wrap: wrap; }
+      .section { padding: 60px 24px; }
+      .services-grid, .stylists-grid, .reviews-grid { grid-template-columns: 1fr; }
+      .date-grid { grid-template-columns: repeat(4, 1fr); }
+      .time-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #f0fdf6; }
+    ::-webkit-scrollbar-thumb { background: #16a34a; border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-brand">Verdure <span>Studio</span></div>
+    <div class="nav-links">
+      <a href="#" onclick="showPage('home')">Home</a>
+      <a href="#" onclick="showPage('bookings')">My Bookings</a>
+      <a href="#" onclick="showPage('reviews')">Reviews</a>
+      <button class="nav-btn" onclick="showPage('booking'); scrollToBooking()">Book Now</button>
+    </div>
+  </nav>
+
+  <!-- HOME PAGE -->
+  <div id="page-home" class="page active">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="fade-up"><span class="hero-tag">PREMIUM HAIR SALON</span></div>
+        <h1 class="fade-up-2">Where Beauty<br><span class="shimmer-text">Meets Artistry</span></h1>
+        <p class="fade-up-3">Experience luxury hair care tailored to you. Our expert stylists bring out your best with precision cuts, stunning color, and transformative treatments.</p>
+        <button class="book-btn fade-up-3" onclick="showPage('booking')">Book Your Appointment →</button>
+        <div class="hero-stats">
+          <div><div class="stat-val">500+</div><div class="stat-label">HAPPY CLIENTS</div></div>
+          <div><div class="stat-val">8 Yrs</div><div class="stat-label">EXPERIENCE</div></div>
+          <div><div class="stat-val">★ 4.9</div><div class="stat-label">AVERAGE RATING</div></div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SERVICES -->
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-header">
+          <span class="section-tag">OUR SERVICES</span>
+          <h2>What We Offer</h2>
+          <p>From precision cuts to full color transformations — every service is crafted with care.</p>
+        </div>
+        <div class="services-grid">
+          <div class="service-card" onclick="selectServiceAndBook('Signature Cut', '$65')">
+            <div class="service-emoji">✂️</div>
+            <div class="service-name">Signature Cut</div>
+            <div class="service-desc">Precision cut tailored to your face shape and lifestyle.</div>
+            <div class="service-meta"><span class="service-duration">⏱ 45 min</span><span class="service-price">$65</span></div>
+          </div>
+          <div class="service-card" onclick="selectServiceAndBook('Full Color', '$120')">
+            <div class="service-emoji">🎨</div>
+            <div class="service-name">Full Color</div>
+            <div class="service-desc">Complete color transformation with premium products.</div>
+            <div class="service-meta"><span class="service-duration">⏱ 2 hrs</span><span class="service-price">$120</span></div>
+          </div>
+          <div class="service-card" onclick="selectServiceAndBook('Balayage', '$180')">
+            <div class="service-emoji">🌿</div>
+            <div class="service-name">Balayage</div>
+            <div class="service-desc">Hand-painted highlights for a natural sun-kissed look.</div>
+            <div class="service-meta"><span class="service-duration">⏱ 3 hrs</span><span class="service-price">$180</span></div>
+          </div>
+          <div class="service-card" onclick="selectServiceAndBook('Blowout', '$45')">
+            <div class="service-emoji">💨</div>
+            <div class="service-name">Blowout</div>
+            <div class="service-desc">Smooth, voluminous blowout that lasts all week.</div>
+            <div class="service-meta"><span class="service-duration">⏱ 30 min</span><span class="service-price">$45</span></div>
+          </div>
+          <div class="service-card" onclick="selectServiceAndBook('Deep Treatment', '$85')">
+            <div class="service-emoji">✨</div>
+            <div class="service-name">Deep Treatment</div>
+            <div class="service-desc">Intensive conditioning treatment to restore and repair.</div>
+            <div class="service-meta"><span class="service-duration">⏱ 1 hr</span><span class="service-price">$85</span></div>
+          </div>
+          <div class="service-card" onclick="selectServiceAndBook('Cut & Color', '$160')">
+            <div class="service-emoji">💫</div>
+            <div class="service-name">Cut & Color</div>
+            <div class="service-desc">The full transformation — cut and color in one session.</div>
+            <div class="service-meta"><span class="service-duration">⏱ 2.5 hrs</span><span class="service-price">$160</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- STYLISTS -->
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-header">
+          <span class="section-tag">OUR TEAM</span>
+          <h2>Meet Your Stylists</h2>
+          <p>Award-winning artists passionate about making you look and feel your best.</p>
+        </div>
+        <div class="stylists-grid">
+          <div class="stylist-card">
+            <div class="stylist-avatar" style="background: linear-gradient(135deg, #16a34a, #4ade80);">S</div>
+            <div class="stylist-name">Sophia</div>
+            <div class="stylist-specialty">Color Specialist</div>
+            <div class="stylist-rating">★ 4.9 · 128 reviews</div>
+          </div>
+          <div class="stylist-card">
+            <div class="stylist-avatar" style="background: linear-gradient(135deg, #0d9488, #2dd4bf);">M</div>
+            <div class="stylist-name">Marcus</div>
+            <div class="stylist-specialty">Precision Cuts</div>
+            <div class="stylist-rating">★ 4.8 · 94 reviews</div>
+          </div>
+          <div class="stylist-card">
+            <div class="stylist-avatar" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);">L</div>
+            <div class="stylist-name">Luna</div>
+            <div class="stylist-specialty">Balayage Expert</div>
+            <div class="stylist-rating">★ 5.0 · 76 reviews</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- BOOKING PAGE -->
+  <div id="page-booking" class="page">
+    <section class="section booking-section" style="padding-top: 120px;">
+      <div class="booking-inner">
+
+        <div class="section-header">
+          <span class="section-tag">APPOINTMENT</span>
+          <h2>Book Your Visit</h2>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="progress-bar-wrap">
+          <div class="progress-step active" id="prog-1"></div>
+          <div class="progress-step" id="prog-2"></div>
+          <div class="progress-step" id="prog-3"></div>
+          <div class="progress-step" id="prog-4"></div>
+        </div>
+
+        <!-- Step 1: Service -->
+        <div class="booking-step active" id="step-1">
+          <div class="step-title">Choose a Service</div>
+          <div class="step-sub">Select the service you'd like to book</div>
+          <div class="services-grid" style="margin-bottom: 32px;">
+            <div class="service-card" onclick="selectService('Signature Cut', '$65', this)">
+              <div class="service-emoji">✂️</div>
+              <div class="service-name">Signature Cut</div>
+              <div class="service-meta"><span class="service-duration">⏱ 45 min</span><span class="service-price">$65</span></div>
+            </div>
+            <div class="service-card" onclick="selectService('Full Color', '$120', this)">
+              <div class="service-emoji">🎨</div>
+              <div class="service-name">Full Color</div>
+              <div class="service-meta"><span class="service-duration">⏱ 2 hrs</span><span class="service-price">$120</span></div>
+            </div>
+            <div class="service-card" onclick="selectService('Balayage', '$180', this)">
+              <div class="service-emoji">🌿</div>
+              <div class="service-name">Balayage</div>
+              <div class="service-meta"><span class="service-duration">⏱ 3 hrs</span><span class="service-price">$180</span></div>
+            </div>
+            <div class="service-card" onclick="selectService('Blowout', '$45', this)">
+              <div class="service-emoji">💨</div>
+              <div class="service-name">Blowout</div>
+              <div class="service-meta"><span class="service-duration">⏱ 30 min</span><span class="service-price">$45</span></div>
+            </div>
+            <div class="service-card" onclick="selectService('Deep Treatment', '$85', this)">
+              <div class="service-emoji">✨</div>
+              <div class="service-name">Deep Treatment</div>
+              <div class="service-meta"><span class="service-duration">⏱ 1 hr</span><span class="service-price">$85</span></div>
+            </div>
+            <div class="service-card" onclick="selectService('Cut & Color', '$160', this)">
+              <div class="service-emoji">💫</div>
+              <div class="service-name">Cut & Color</div>
+              <div class="service-meta"><span class="service-duration">⏱ 2.5 hrs</span><span class="service-price">$160</span></div>
+            </div>
+          </div>
+          <div class="step-actions">
+            <button class="btn-primary" onclick="nextStep(2)">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Stylist -->
+        <div class="booking-step" id="step-2">
+          <div class="step-title">Choose Your Stylist</div>
+          <div class="step-sub">Pick the artist you'd like to work with</div>
+          <div class="stylists-grid" style="margin-bottom: 32px;">
+            <div class="stylist-card" onclick="selectStylist('Sophia', this)">
+              <div class="stylist-avatar" style="background: linear-gradient(135deg, #16a34a, #4ade80);">S</div>
+              <div class="stylist-name">Sophia</div>
+              <div class="stylist-specialty">Color Specialist</div>
+              <div class="stylist-rating">★ 4.9</div>
+            </div>
+            <div class="stylist-card" onclick="selectStylist('Marcus', this)">
+              <div class="stylist-avatar" style="background: linear-gradient(135deg, #0d9488, #2dd4bf);">M</div>
+              <div class="stylist-name">Marcus</div>
+              <div class="stylist-specialty">Precision Cuts</div>
+              <div class="stylist-rating">★ 4.8</div>
+            </div>
+            <div class="stylist-card" onclick="selectStylist('Luna', this)">
+              <div class="stylist-avatar" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);">L</div>
+              <div class="stylist-name">Luna</div>
+              <div class="stylist-specialty">Balayage Expert</div>
+              <div class="stylist-rating">★ 5.0</div>
+            </div>
+          </div>
+          <div class="step-actions">
+            <button class="btn-secondary" onclick="nextStep(1)">← Back</button>
+            <button class="btn-primary" onclick="nextStep(3)">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Date & Time -->
+        <div class="booking-step" id="step-3">
+          <div class="step-title">Pick a Date & Time</div>
+          <div class="step-sub">Select when you'd like to come in</div>
+          <div class="date-grid" id="date-grid"></div>
+          <div class="time-grid" id="time-grid"></div>
+          <div class="step-actions" style="margin-top: 32px;">
+            <button class="btn-secondary" onclick="nextStep(2)">← Back</button>
+            <button class="btn-primary" onclick="nextStep(4)">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 4: Details -->
+        <div class="booking-step" id="step-4">
+          <div class="step-title">Your Details</div>
+          <div class="step-sub">Just a few more things and you're all set</div>
+          <div class="form-group">
+            <label class="form-label">YOUR NAME</label>
+            <input class="form-input" type="text" id="client-name" placeholder="e.g. Jessica Smith" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">EMAIL ADDRESS</label>
+            <input class="form-input" type="email" id="client-email" placeholder="you@example.com" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">SPECIAL REQUESTS (OPTIONAL)</label>
+            <input class="form-input" type="text" id="client-notes" placeholder="Any notes for your stylist..." />
+          </div>
+          <div class="step-actions">
+            <button class="btn-secondary" onclick="nextStep(3)">← Back</button>
+            <button class="btn-primary" onclick="confirmBooking()">Confirm Booking ✓</button>
+          </div>
+        </div>
+
+        <!-- Confirmation -->
+        <div class="confirmation" id="confirmation">
+          <div class="confirm-icon">🌿</div>
+          <div class="confirm-title">You're All Set!</div>
+          <div class="confirm-sub" id="confirm-message"></div>
+          <div class="confirm-details" id="confirm-details"></div>
+          <div class="confirm-num" id="confirm-num"></div>
+          <br/>
+          <button class="btn-primary" onclick="showPage('home')" style="max-width: 200px; margin: 0 auto; display: block;">Back to Home</button>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- MY BOOKINGS PAGE -->
+  <div id="page-bookings" class="page">
+    <section class="section" style="padding-top: 120px;">
+      <div class="section-inner">
+        <div class="section-header">
+          <span class="section-tag">YOUR APPOINTMENTS</span>
+          <h2>My Bookings</h2>
+          <p>All your upcoming and past appointments in one place.</p>
+        </div>
+        <div class="bookings-list" id="bookings-list"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- REVIEWS PAGE -->
+  <div id="page-reviews" class="page">
+    <section class="section" style="padding-top: 120px;">
+      <div class="section-inner">
+        <div class="section-header">
+          <span class="section-tag">CLIENT LOVE</span>
+          <h2>What Our Clients Say</h2>
+        </div>
+        <div class="reviews-grid" id="reviews-grid"></div>
+        <div class="review-form">
+          <h3>Leave a Review</h3>
+          <div class="form-group">
+            <label class="form-label">YOUR NAME</label>
+            <input class="form-input" type="text" id="review-name" placeholder="Your name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">YOUR STYLIST</label>
+            <select class="form-input" id="review-stylist" style="cursor:pointer;">
+              <option value="">Select your stylist...</option>
+              <option value="Sophia">Sophia — Color Specialist</option>
+              <option value="Marcus">Marcus — Precision Cuts</option>
+              <option value="Luna">Luna — Balayage Expert</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">YOUR RATING</label>
+            <div class="star-picker" id="star-picker">
+              <span class="star-btn" onclick="setRating(1)">★</span>
+              <span class="star-btn" onclick="setRating(2)">★</span>
+              <span class="star-btn" onclick="setRating(3)">★</span>
+              <span class="star-btn" onclick="setRating(4)">★</span>
+              <span class="star-btn" onclick="setRating(5)">★</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">YOUR REVIEW</label>
+            <input class="form-input" type="text" id="review-text" placeholder="Share your experience..." />
+          </div>
+          <button class="btn-primary" style="max-width: 200px;" onclick="submitReview()">Submit Review</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">Verdure <span>Studio</span></div>
+    <div class="footer-text">Premium Hair Care · By Appointment Only</div>
+  </footer>
+
+  <script>
+    // State
+    let booking = { service: '', price: '', stylist: '', date: '', time: '' };
+    let bookings = JSON.parse(localStorage.getItem('vs-bookings') || '[]');
+    let reviews = JSON.parse(localStorage.getItem('vs-reviews') || '[]');
+    let currentRating = 0;
+    let currentStep = 1;
+
+    // Default reviews
+    if (reviews.length === 0) {
+      reviews = [
+        { name: "Emma R.", rating: 5, text: "Sophia is an absolute genius with color. My balayage turned out better than I could have imagined!" },
+        { name: "Claire T.", rating: 5, text: "Luna is incredible. She listened to exactly what I wanted and delivered perfection." },
+        { name: "Natalie M.", rating: 5, text: "Best salon experience I've ever had. The atmosphere is gorgeous and Marcus is so talented." },
+        { name: "Jade L.", rating: 4, text: "Amazing blowout — lasted almost a week! Will definitely be back." },
+      ];
+    }
+
+    // Page navigation
+    function showPage(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + page).classList.add('active');
+      window.scrollTo(0, 0);
+      if (page === 'bookings') renderBookings();
+      if (page === 'reviews') renderReviews();
+      if (page === 'booking') { resetBooking(); buildDateGrid(); buildTimeGrid(); }
+    }
+
+    function scrollToBooking() {
+      setTimeout(() => window.scrollTo(0, 0), 100);
+    }
+
+    // Select service from home page and go to booking
+    function selectServiceAndBook(service, price) {
+      booking.service = service;
+      booking.price = price;
+      showPage('booking');
+      // Pre-select the service card
+      document.querySelectorAll('#step-1 .service-card').forEach(c => {
+        if (c.querySelector('.service-name').textContent === service) {
+          c.classList.add('selected');
+        }
+      });
+    }
+
+    // Booking steps
+    function nextStep(step) {
+      document.querySelectorAll('.booking-step').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.progress-step').forEach((p, i) => {
+        p.classList.toggle('active', i < step);
+      });
+      document.getElementById('step-' + step).classList.add('active');
+      currentStep = step;
+    }
+
+    function selectService(name, price, el) {
+      booking.service = name;
+      booking.price = price;
+      document.querySelectorAll('#step-1 .service-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    function selectStylist(name, el) {
+      booking.stylist = name;
+      document.querySelectorAll('#step-2 .stylist-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    // Build date grid
+    function buildDateGrid() {
+      const grid = document.getElementById('date-grid');
+      grid.innerHTML = '';
+      const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+      const today = new Date();
+      for (let i = 0; i < 14; i++) {
+        const d = new Date(today);
+        d.setDate(today.getDate() + i);
+        const btn = document.createElement('div');
+        btn.className = 'date-btn';
+        btn.innerHTML = `<div class="date-day">${days[d.getDay()]}</div><div class="date-num">${d.getDate()}</div>`;
+        const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        btn.onclick = () => {
+          booking.date = dateStr;
+          document.querySelectorAll('.date-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+        };
+        grid.appendChild(btn);
+      }
+    }
+
+    // Build time grid
+    function buildTimeGrid() {
+      const grid = document.getElementById('time-grid');
+      grid.innerHTML = '';
+      const times = ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
+      times.forEach(t => {
+        const btn = document.createElement('div');
+        btn.className = 'time-btn';
+        btn.textContent = t;
+        btn.onclick = () => {
+          booking.time = t;
+          document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+        };
+        grid.appendChild(btn);
+      });
+    }
+
+    // Confirm booking
+    function confirmBooking() {
+      const name = document.getElementById('client-name').value.trim();
+      const email = document.getElementById('client-email').value.trim();
+      if (!name || !email) { alert('Please fill in your name and email.'); return; }
+      if (!booking.service) { alert('Please select a service.'); return; }
+      if (!booking.stylist) { alert('Please select a stylist.'); return; }
+      if (!booking.date || !booking.time) { alert('Please select a date and time.'); return; }
+
+      const confirmNum = 'VS-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+      const newBooking = { ...booking, name, email, confirmNum, id: Date.now() };
+      bookings.push(newBooking);
+      localStorage.setItem('vs-bookings', JSON.stringify(bookings));
+
+      document.querySelectorAll('.booking-step').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.progress-step').forEach(p => p.classList.add('active'));
+
+      document.getElementById('confirm-message').textContent = `Thank you, ${name}! We can't wait to see you.`;
+      document.getElementById('confirm-details').innerHTML = `
+        <div class="confirm-row"><span class="confirm-row-label">Service</span><span class="confirm-row-val">${booking.service}</span></div>
+        <div class="confirm-row"><span class="confirm-row-label">Stylist</span><span class="confirm-row-val">${booking.stylist}</span></div>
+        <div class="confirm-row"><span class="confirm-row-label">Date</span><span class="confirm-row-val">${booking.date}</span></div>
+        <div class="confirm-row"><span class="confirm-row-label">Time</span><span class="confirm-row-val">${booking.time}</span></div>
+        <div class="confirm-row"><span class="confirm-row-label">Total Due</span><span class="confirm-row-val" style="color:#4ade80">${booking.price}</span></div>
+      `;
+      document.getElementById('confirm-num').textContent = 'Confirmation #' + confirmNum;
+      document.getElementById('confirmation').classList.add('active');
+    }
+
+    function resetBooking() {
+      booking = { service: '', price: '', stylist: '', date: '', time: '' };
+      document.querySelectorAll('.booking-step').forEach(s => s.classList.remove('active'));
+      document.getElementById('step-1').classList.add('active');
+      document.querySelectorAll('.progress-step').forEach((p, i) => p.classList.toggle('active', i === 0));
+      document.getElementById('confirmation').classList.remove('active');
+      document.querySelectorAll('.service-card, .stylist-card').forEach(c => c.classList.remove('selected'));
+      ['client-name', 'client-email', 'client-notes'].forEach(id => document.getElementById(id).value = '');
+    }
+
+    // Render bookings
+    function cancelBooking(idx) {
+      if (!confirm('Are you sure you want to cancel this appointment?')) return;
+      const reversed = bookings.slice().reverse();
+      const target = reversed[idx];
+      bookings = bookings.filter(b => b !== target);
+      localStorage.setItem('vs-bookings', JSON.stringify(bookings));
+      renderBookings();
+    }
+
+    function renderBookings() {
+      const list = document.getElementById('bookings-list');
+      if (bookings.length === 0) {
+        list.innerHTML = '<div class="empty-state">No bookings yet. <a href="#" onclick="showPage(\'booking\')" style="color:#16a34a">Book your first appointment &#8594;</a></div>';
+        return;
+      }
+      const reversed = bookings.slice().reverse();
+      let html = '';
+      reversed.forEach((b, idx) => {
+        html += '<div class="booking-item">';
+        html += '<div class="booking-item-left">';
+        html += '<div class="booking-service">' + b.service + '</div>';
+        html += '<div class="booking-meta">with ' + b.stylist + ' &middot; ' + b.date + ' at ' + b.time + '</div>';
+        html += '</div>';
+        html += '<div style="display:flex;align-items:center;gap:16px;">';
+        html += '<div class="booking-price">' + b.price + '</div>';
+        html += '<button onclick="cancelBooking(' + idx + ')" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#ef4444;font-family:Nunito,sans-serif;font-weight:700;font-size:12px;padding:8px 16px;border-radius:20px;cursor:pointer;" onmouseover="this.style.background=\'rgba(239,68,68,0.2)\'" onmouseout="this.style.background=\'rgba(239,68,68,0.1)\'">Cancel</button>';
+        html += '</div></div>';
+      });
+      list.innerHTML = html;
+    }
+
+    // Reviews
+    function setRating(r) {
+      currentRating = r;
+      document.querySelectorAll('.star-btn').forEach((s, i) => s.classList.toggle('active', i < r));
+    }
+
+    function submitReview() {
+      const name = document.getElementById('review-name').value.trim();
+      const stylist = document.getElementById('review-stylist').value;
+      const text = document.getElementById('review-text').value.trim();
+      if (!name || !stylist || !text || !currentRating) { alert('Please fill in all fields, select your stylist, and choose a rating.'); return; }
+      reviews.push({ name, stylist, rating: currentRating, text });
+      localStorage.setItem('vs-reviews', JSON.stringify(reviews));
+      document.getElementById('review-name').value = '';
+      document.getElementById('review-stylist').value = '';
+      document.getElementById('review-text').value = '';
+      currentRating = 0;
+      document.querySelectorAll('.star-btn').forEach(s => s.classList.remove('active'));
+      renderReviews();
+    }
+
+    function renderReviews() {
+      const grid = document.getElementById('reviews-grid');
+      grid.innerHTML = reviews.map(r => `
+        <div class="review-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+            ${r.stylist ? `<span style="font-size:11px;background:rgba(134,239,172,0.2);border:1px solid rgba(74,222,128,0.3);color:#16a34a;padding:3px 10px;border-radius:20px;font-weight:600;">${r.stylist}</span>` : ''}
+          </div>
+          <div class="review-text">"${r.text}"</div>
+          <div class="review-author">— ${r.name}</div>
+        </div>
+      `).join('');
+    }
+
+    // Init
+    buildDateGrid();
+    buildTimeGrid();
+  </script>
+
+</body>
+</html>
